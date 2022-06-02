@@ -5,29 +5,31 @@
 # Example:
 #
 # all_vowel_pairs(["goat", "action", "tear", "impromptu", "tired", "europe"])   # => ["action europe", "tear impromptu"]
-# def all_vowel_pairs(words)
-#     vowels = "aeiou"
-#     valids =[]
-#     pairs = get_pairs(words)
-#     pairs.each do |pair|
-#         if vowels.all?{|pair|)
-#             valids << pair
-    
-# end
+def all_vowel_pairs(words)
+    vowels = "aeiou".split("")
+    valids =[]
+    pairs = get_pairs(words)
+    pairs.each do |pair|
+        if vowels.all?{|vowels| pair.include?(vowels)}
+            valids << pair
+        end
+    end
+    valids
+end
 
-# def get_pairs(words)
-#     str = ""
-#     pairs = []
-#     words.each_with_index do |word1, idx1|
-#         words.each_with_index do |word2, idx2|
-#             if idx2 > idx1
-#                 str = word1 + " " + word2
-#                 pairs << str
-#             end
-#         end
-#     end
-#     return pairs
-# end
+def get_pairs(words)
+    str = ""
+    pairs = []
+    words.each_with_index do |word1, idx1|
+        words.each_with_index do |word2, idx2|
+            if idx2 > idx1
+                str = word1 + " " + word2
+                pairs << str
+            end
+        end
+    end
+    return pairs
+end
 
 # def get_valid_pairs(pairs)
    
@@ -127,7 +129,11 @@ class String
                 end
             end
          end
-        substrings
+        if !length
+            return substrings
+        else
+            return substrings.select {|subs| subs.length ==length}
+        end
     end
 
 

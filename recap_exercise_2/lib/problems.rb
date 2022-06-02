@@ -1,3 +1,4 @@
+require "byebug"
 # Write a method, least_common_multiple, that takes in two numbers and returns the smallest number that is a mutiple
 # of both of the given numbers
 def least_common_multiple(num_1, num_2)
@@ -22,16 +23,21 @@ def most_frequent_bigram(str)
         bigrams[str[i..i+1]] +=1
         i+=1
     end
-
-    bigrams.sort_by?{|k,v| -v}
-    return bigrams.keys.first
+    sorted = bigrams.sort_by{|k,v| -v}
+    array = sorted.first.to_a
+    return array[0]
 end
+
 
 
 class Hash
     # Write a method, Hash#inverse, that returns a new hash where the key-value pairs are swapped
     def inverse
-
+        hash = {}
+        self.each do |k,v|
+            hash[v] = k
+        end
+        hash
     end
 end
 
@@ -39,7 +45,15 @@ end
 class Array
     # Write a method, Array#pair_sum_count, that takes in a target number returns the number of pairs of elements that sum to the given target
     def pair_sum_count(num)
-
+        nums = []
+        self.each_with_index do |n1, i1|
+            self.each_with_index do |n2, i2|
+                if i2 > i1 && n1 +n2 == num
+                    nums << num
+                end
+            end
+        end
+        nums.length
     end
 
     # Write a method, Array#bubble_sort, that takes in an optional proc argument.
@@ -57,5 +71,21 @@ class Array
     # This should remind you of the spaceship operator! Convenient :)
     def bubble_sort(&prc)
 
+        prc ||= Proc.new {|a, b| a<=>b }  
+        sorted  = false
+        while !sorted
+            sorted = true
+            (0...self.length-1).each do |i|
+            
+                if prc.call(self[i],self[i+1]) == 1
+                    self[i], self[i +1] = self[i+1], self[i]
+                    sorted  = false
+                end
+            end
+           
+        end
+        self
     end
 end
+
+p [4, 12, 2, 8, 1, 14, 9, 25, 24, 81].bubble_sort
